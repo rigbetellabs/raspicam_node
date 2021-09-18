@@ -577,11 +577,6 @@ void reconfigure_callback(raspicam_node::CameraConfig &config, uint32_t level) {
 	config.exposure_mode.c_str(),
 	config.awb_mode.c_str());
 
-	if (!state_srv.camera_component) {
-		ROS_WARN("camera_component not initialized");
-		return;
-	}
-
 	if (config.zoom < 1.0) {
 		ROS_ERROR("Zoom value %f too small (must be at least 1.0)", config.zoom);
 	}
@@ -607,6 +602,11 @@ void reconfigure_callback(raspicam_node::CameraConfig &config, uint32_t level) {
 	raspicamcontrol_set_shutter_speed(state_srv.camera_component, config.shutterSpeed);
 
 	ROS_INFO("Reconfigure done");
+	
+	if (!state_srv.camera_component) {
+		ROS_WARN("camera_component not initialized");
+		return;
+	}
 }
 
 //----------------------------------------------------------------------
